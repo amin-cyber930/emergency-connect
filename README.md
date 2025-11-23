@@ -1,2 +1,23 @@
-# emergency-connect
-Emergency Connect - A comprehensive emergency response web application with real-time communication, doctor directories, and emergency contact systems. Built with HTML, CSS, JavaScript, and Python Flask.
+# Emergency Connect 🚨
+
+نظام اتصال طوارئ سريع وفعال
+
+## المميزات:
+- إرسال تنبيهات طوارئ فورية
+- مشاركة الموقع تلقائياً
+- اتصال بالجهات المختصة
+- واجهة مستخدم بسيطة وسريعة
+
+## التقنيات المستخدمة:
+- Frontend: HTML, CSS, JavaScript
+- Backend: Python Flask
+- Mobile: Java Android
+- Database: MySQL
+
+## التثبيت:
+1. تثبيت المتطلبات: `pip install -r requirements.txt`
+2. تشغيل السيرفر: `python backend/app.py`
+3. فتح المتصفح: `http://localhost:5000`
+
+## المطور:
+أمين الجوع

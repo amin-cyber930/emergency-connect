@@ -1,0 +1,13 @@
+# DNS / IP
+dig +short <domain>
+dig <domain> mx
+
+# Whois
+whois <domain>
+
+# HTTP headers (server)
+curl -I http://<domain>
+
+# Search username across sites (web GUI): https://whatsmyname.app
+
+# OSINT quick: افتح https://osintframework.com وابحث تحت "Username" و"Domain"

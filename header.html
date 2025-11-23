@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Emergency Connect - Header (RTL, Tailwind)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Small visual tweak for the dark header like the screenshot */
+      .header-bg { background: linear-gradient(180deg,#1f2937,#111827); }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="header-bg text-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center justify-between h-16" aria-label="الرئيسية">
+          <!-- Right side: logo + name (appears on the far right in RTL) -->
+          <div class="flex items-center gap-3">
+            <a href="#" class="flex items-center gap-2">
+              <!-- Simple ambulance icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 13v6a1 1 0 001 1h1a1 1 0 001-1v-1h10v1a1 1 0 001 1h1a1 1 0 001-1v-6"/><path d="M21 8h-4l-2-3H9L7 8H3v3h18V8z"/></svg>
+              <div class="leading-tight">
+                <div class="text-lg font-semibold">Emergency Connect</div>
+                <div class="text-xs text-gray-300">جاهز دايماً — متصل دايماً</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Center: navigation links -->
+          <div class="hidden md:flex md:items-center md:space-x-6 md:space-x-reverse">
+            <ul class="flex items-center gap-6 text-sm" role="menubar" aria-label="القائمة الرئيسية">
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">الرئيسية</a></li>
+              <li role="none"><a role="menuitem" href="#" class="text-red-400 font-medium hover:text-red-300">الطوارئ</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">المستشفيات</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">الأطباء</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">الصيدليات</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">الخدمات</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">عن المشروع</a></li>
+              <li role="none"><a role="menuitem" href="#" class="hover:text-white">اتصل بنا</a></li>
+            </ul>
+          </div>
+
+          <!-- Left side: language + mobile menu button (leftmost in RTL) -->
+          <div class="flex items-center gap-3">
+            <!-- Language toggle -->
+            <button id="langBtn" class="flex items-center gap-2 bg-gray-800/40 px-3 py-1 rounded-md text-sm hover:bg-gray-800/60" aria-label="تغيير اللغة">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="langLabel">العربية</span>
+            </button>
+
+            <!-- Mobile menu button -->
+            <button id="menuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-800/40" aria-controls="mobile-menu" aria-expanded="false" aria-label="فتح القائمة">
+              <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Mobile menu (hidden on md+) -->
+      <div id="mobile-menu" class="md:hidden px-4 pb-4 hidden">
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">الرئيسية</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md bg-red-600/30">الطوارئ</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">المستشفيات</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">الأطباء</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">الصيدليات</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">الخدمات</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">عن المشروع</a></li>
+          <li><a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800/40">اتصل بنا</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Optional page content to preview spacing -->
+    <main class="max-w-7xl mx-auto p-6">
+      <h1 class="text-2xl font-semibold mb-4">معاينة الهيدر</h1>
+      <p class="text-gray-700">انسخ الملف وافتحه في المتصفح لترى الهيدر. زر اللغة يبدّل النص داخل الزر كمثال بسيط، وزر الموبايل يفتح القائمة.</p>
+    </main>
+
+    <script>
+      // Mobile menu toggle
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuBtn.addEventListener('click', () => {
+        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!expanded));
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Language toggle example (switches label only)
+      const langBtn = document.getElementById('langBtn');
+      const langLabel = document.getElementById('langLabel');
+      langBtn.addEventListener('click', () => {
+        if (langLabel.textContent.trim() === 'العربية') {
+          langLabel.textContent = 'English';
+          document.documentElement.lang = 'en';
+          document.documentElement.dir = 'ltr';
+          // flip layout for demo: switch flex direction using a simple class change
+          document.querySelector('nav').classList.add('ltr-mode');
+        } else {
+          langLabel.textContent = 'العربية';
+          document.documentElement.lang = 'ar';
+          document.documentElement.dir = 'rtl';
+          document.querySelector('nav').classList.remove('ltr-mode');
+        }
+      });
+    </script>
+  </body>
+</html>

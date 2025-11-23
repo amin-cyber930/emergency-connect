@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - أمين ناجح</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .developer-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .contact-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .contact-item:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .phone i { background: #4CAF50; }
+        .whatsapp i { background: #25D366; }
+        .email i { background: #EA4335; }
+        .location i { background: #FF9800; }
+        
+        .contact-text {
+            text-align: right;
+            flex: 1;
+        }
+        
+        .contact-text strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .contact-text span {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-call {
+            background: #4CAF50;
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+        }
+        
+        .btn-email {
+            background: #EA4335;
+            grid-column: span 2;
+        }
+        
+        .projects {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .projects h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .project-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 480px) {
+            .contact-card {
+                padding: 25px;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-email {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-card">
+        <!-- الصورة الشخصية -->
+        <div class="developer-img">
+            <i class="fas fa-user"></i>
+        </div>
+        
+        <!-- الاسم والمعلومات -->
+        <h1>أمين ناجح أبو الفتوح صابر</h1>
+        <p class="subtitle">مطور تطبيقات ويب وموبايل</p>
+        
+        <!-- معلومات التواصل -->
+        <div class="contact-info">
+            <div class="contact-item phone">
+                <div class="contact-text">
+                    <strong>الهاتف</strong>
+                    <span>01153546426</span>
+                </div>
+                <i class="fas fa-phone"></i>
+            </div>
+            
+            <div class="contact-item whatsapp">
+                <div class="contact-text">
+                    <strong>الواتساب</strong>
+                    <span>اضغط للتواصل المباشر</span>
+                </div>
+                <i class="fab fa-whatsapp"></i>
+            </div>
+            
+            <div class="contact-item email">
+                <div class="contact-text">
+                    <strong>البريد الإلكتروني</strong>
+                    <span>amin.weqena2@gmail.com</span>
+                </div>
+                <i class="fas fa-envelope"></i>
+            </div>
+            
+            <div class="contact-item location">
+                <div class="contact-text">
+                    <strong>المدينة</strong>
+                    <span>قوص، قنا، مصر</span>
+                </div>
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+        </div>
+        
+        <!-- أزرار سريعة -->
+        <div class="quick-actions">
+            <a href="tel:01153546426" class="action-btn btn-call">
+                <i class="fas fa-phone"></i>
+                اتصل الآن
+            </a>
+            
+            <a href="https://wa.me/201153546426" target="_blank" class="action-btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                واتساب
+            </a>
+            
+            <a href="mailto:amin.weqena2@gmail.com" class="action-btn btn-email">
+                <i class="fas fa-envelope"></i>
+                إرسال بريد
+            </a>
+        </div>
+        
+        <!-- المشاريع -->
+        <div class="projects">
+            <h3>أبرز المشاريع</h3>
+            <div class="project-badge">Emergency Connect</div>
+            <div class="project-badge">تطبيقات ويب متقدمة</div>
+            <div class="project-badge">تصميم واجهات مستخدم</div>
+        </div>
+    </div>
+
+    <script>
+        // إضافة تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach((item, index) => {
+                item.style.animationDelay = (index * 0.1) + 's';
+                item.style.animation = 'fadeInUp 0.6s ease-out forwards';
+            });
+        });
+
+        // إضافة الأنيميشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .contact-item {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Connect - خدمات الطوارئ بقوص</title>
+    <meta name="description" content="منصة موحدة لخدمات الطوارئ بمركز قوص - أطباء، مستشفيات، صيدليات وخدمات عامة">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --primary-light: #e8f0fe;
+            --secondary: #f8f9fa;
+            --accent: #ea4335;
+            --accent-dark: #c5221f;
+            --success: #34a853;
+            --warning: #f9ab00;
+            --text: #202124;
+            --text-light: #5f6368;
+            --white: #ffffff;
+            --gray: #f1f3f4;
+            --dark-bg: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-text: #e8eaed;
+            --dark-text-light: #9aa0a6;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-dark: 0 2px 10px rgba(0,0,0,0.3);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #8ab4f8;
+            --primary-dark: #aecbfa;
+            --primary-light: #3c4043;
+            --secondary: #1e1e1e;
+            --accent: #f28b82;
+            --accent-dark: #e57373;
+            --text: #e8eaed;
+            --text-light: #9aa0a6;
+            --white: #2d2d2d;
+            --gray: #3c4043;
+            --shadow: var(--shadow-dark);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* شاشة التحميل المحسنة */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .splash-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .splash-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .splash-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress {
+            height: 100%;
+            background: white;
+            width: 0%;
+            animation: loading 2.5s ease-in-out;
+        }
+
+        .developer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* الهيدر المحسن */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-left: 0.5rem;
+            
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-right: 0.5rem;
+        }
+
+        .logo-subtitle {
+            
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: -3px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            
+        }
+
+        .nav-links li {
+
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: 250px;
+            background: var(--white);
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .voice-search {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .voice-search:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .lang-switcher, .theme-toggle {
+            background: var(--gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 26px;
+            padding: 0 3px;
+            position: relative;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--white);
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .dark-mode .theme-toggle::after {
+            transform: translateX(24px);
+        }
+
+        .lang-switcher:hover, .theme-toggle:hover {
+            background: #e0e0e0;
+        }
+
+        .dark-mode .lang-switcher:hover, .dark-mode .theme-toggle:hover {
+            background: #3c4043;
+        }
+
+        /* نتائج البحث المحسنة */
+        .search-results-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .search-results-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .search-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .search-header h3 {
+            margin: 0;
+            color: var(--text);
+        }
+
+        .close-search {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .close-search:hover {
+            color: var(--accent);
+        }
+
+        .search-results-list {
+            padding: 10px;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-result-item:hover {
+            background: var(--primary-light);
+            transform: translateX(5px);
+        }
+
+        .result-icon {
+            font-size: 24px;
+            margin-left: 15px;
+        }
+
+        .result-content {
+            flex: 1;
+        }
+
+        .result-content h4 {
+            margin: 0 0 5px 0;
+            color: var(--text);
+        }
+
+        .result-content p {
+            margin: 0 0 5px 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .result-content small {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .result-action button {
+            padding: 8px 12px;
+        }
+
+        .no-results {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* الأقسام العامة */
+        section {
+            padding: 6rem 5% 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* قسم البداية المحسن */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            padding: 10rem 5% 6rem;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,122.7C960,117,1056,171,1152,197.3C1248,224,1344,224,1392,224L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center bottom;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+            font-style: italic;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(234, 67, 53, 0.4);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(234, 67, 53, 0.6);
+            background: var(--accent-dark);
+        }
+
+        /* الكروت المحسنة */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-left: 1rem;
+            color: var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+            color: var(--text);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2e8b47;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .badge-success {
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .badge-warning {
+            background: #fef7e0;
+            color: #b06000;
+        }
+
+        .badge-info {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+
+        .badge-danger {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        /* قسم التواصل مع المطور */
+        .developer-contact {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .developer-profile {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .developer-contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .developer-title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .contact-method {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: var(--transition);
+        }
+
+        .contact-method:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .contact-method i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .contact-method h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-method p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .contact-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+
+        /* قسم عن المشروع */
+        .about {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about p {
+            margin-bottom: 1.8rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        .contact-email {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* قسم التواصل */
+        .contact {
+            background: var(--gray);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text);
+            transition: var(--transition);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* الفوتر المحسن */
+        footer {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+            padding: 3rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p {
+            color: var(--dark-text-light);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--dark-text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: var(--dark-text);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: var(--dark-text-light);
+            font-size: 0.9rem;
+        }
+
+        .developer-credit {
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* زر التثبيت */
+        .install-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            transition: var(--transition);
+        }
+
+        .install-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* أنماط إضافية للبيانات الكثيرة */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .emergency-hotline {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 8px 25px rgba(238, 90, 36, 0.3);
+        }
+
+        .hotline-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .quick-contact {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* تحسينات للهواتف */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        /* التجاوبية */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .search-container input {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 8rem 5% 4rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-results-container {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .nav-controls {
+                gap: 0.5rem;
+            }
+
+            .search-container input {
+                width: 150px;
+            }
+
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .developer-profile {
+                padding: 2rem;
+            }
+
+            .card-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .search-container {
+                display: none;
+            }
+
+            .mobile-search-btn {
+                display: block;
+            }
+
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* قائمة الجوال */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background: var(--white);
+            z-index: 1500;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+        }
+
+        .mobile-menu-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-links a {
+            display: block;
+            padding: 0.8rem 0;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--gray);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--primary);
+            padding-right: 10px;
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1499;
+            display: none;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div id="splash-screen">
+        <div class="splash-logo">🚨</div>
+        <div class="splash-text">Emergency Connect</div>
+        <div class="splash-subtitle">جاهز دايمًا – متصل دايمًا</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="developer">تم التطوير بواسطة أمين ناجح</div>
+    </div>
+
+    <!-- الهيدر والتنقل -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-text">
+                        <span>Emergency Connect</span>
+                        <span class="logo-subtitle">جاهز دايمًا — متصل دايمًا</span>
+                    </div>
+                    <i class="fas fa-ambulance"></i>
+                </div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home" data-en="Home">الرئيسية</a></li>
+                <li><a href="#hospitals" data-en="Hospitals">المستشفيات</a></li>
+                <li><a href="#doctors" data-en="Doctors">الأطباء</a></li>
+                <li><a href="#pharmacies" data-en="Pharmacies">الصيدليات</a></li>
+                <li><a href="#services" data-en="Services">الخدمات</a></li>
+                <li><a href="#developer-contact" data-en="Developer">المطور</a></li>
+                <li><a href="#about" data-en="About">عن المشروع</a></li>
+                <li><a href="#contact" data-en="Contact">اتصل بنا</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <!-- نظام البحث -->
+                <div class="search-container">
+                    <button class="voice-search" id="voiceSearch" title="بحث بالصوت" aria-label="بحث بالصوت">🎤</button>
+                    <input type="text" id="globalSearch" placeholder="🔍 ابحث عن طبيب، صيدلية..." aria-label="بحث عن خدمات الطوارئ">
+                </div>
+                
+                <button class="lang-switcher" id="langSwitcher" aria-label="تبديل اللغة">
+                    <i class="fas fa-globe"></i>
+                    <span>العربية</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع المظلم"></button>
+            </div>
+
+            <!-- زر قائمة الجوال -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- قائمة الجوال -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <h3>Emergency Connect</h3>
+            <button class="close-search" id="closeMobileMenu" aria-label="إغلاق القائمة">✕</button>
+        </div>
+        <ul class="mobile-menu-links">
+            <li><a href="#home" data-en="Home">الرئيسية</a></li>
+            <li><a href="#hospitals" data-en="Hospitals">المستشفيات</a></li>
+            <li><a href="#doctors" data-en="Doctors">الأطباء</a></li>
+            <li><a href="#pharmacies" data-en="Pharmacies">الصيدليات</a></li>
+            <li><a href="#services" data-en="Services">الخدمات</a></li>
+            <li><a href="#developer-contact" data-en="Developer">المطور</a></li>
+            <li><a href="#about" data-en="About">عن المشروع</a></li>
+            <li><a href="#contact" data-en="Contact">اتصل بنا</a></li>
+        </ul>
+    </div>
+
+    <!-- قسم البداية -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 data-en="Emergency Connect">Emergency Connect</h1>
+            <p data-en="A unified platform that gathers emergency numbers and services in Qus Center — quickly, smoothly, and safely.">منصة موحدة تجمع أرقام وخدمات الطوارئ في مركز قوص — بسرعة، بسلاسة، وبأمان.</p>
+            <a href="tel:123" class="cta-button" data-en="Call Emergency Now">☎️ اتصل الآن بالطوارئ</a>
+            <div class="hero-subtitle" data-en="Always Ready — Always Connected">جاهز دايمًا — متصل دايمًا</div>
+        </div>
+    </section>
+
+    <!-- قسم المستشفيات -->
+    <section id="hospitals">
+        <div class="section-header">
+            <h2 data-en="Hospitals & Centers">🏥 المستشفيات والمراكز الطبية</h2>
+            <p data-en="Hospitals and medical centers in Qus Center">المستشفيات والمراكز الطبية بمركز قوص</p>
+        </div>
+        <div class="cards-container" id="hospitals-container">
+            <!-- سيتم إضافة كروت المستشفيات ديناميكياً -->
+        </div>
+    </section>
+
+    <!-- قسم الأطباء -->
+    <section id="doctors">
+        <div class="section-header">
+            <h2 data-en="Specialized Doctors">👨‍⚕️ الأطباء المتخصصون</h2>
+            <p data-en="Specialized doctors in various medical fields in Qus Center">دكاترة متخصصون في مختلف المجالات الطبية بمركز قوص</p>
+        </div>
+        
+        <!-- أطباء الأطفال -->
+        <div class="category-section">
+            <h3 class="category-title">👶 أطباء الأطفال</h3>
+            <div class="cards-container" id="pediatrics-container"></div>
+        </div>
+
+        <!-- أطباء الباطنة -->
+        <div class="category-section">
+            <h3 class="category-title">🫀 أطباء الباطنة</h3>
+            <div class="cards-container" id="internal-container"></div>
+        </div>
+
+        <!-- أطباء النساء والتوليد -->
+        <div class="category-section">
+            <h3 class="category-title">🤰 أطباء النساء والتوليد</h3>
+            <div class="cards-container" id="gynecology-container"></div>
+        </div>
+
+        <!-- أطباء العيون -->
+        <div class="category-section">
+            <h3 class="category-title">👁️ أطباء العيون</h3>
+            <div class="cards-container" id="ophthalmology-container"></div>
+        </div>
+
+        <!-- التخصصات الأخرى -->
+        <div class="category-section">
+            <h3 class="category-title">⚕️ تخصصات أخرى</h3>
+            <div class="cards-container" id="other-doctors-container"></div>
+        </div>
+    </section>
+
+    <!-- قسم الصيدليات -->
+    <section id="pharmacies">
+        <div class="section-header">
+            <h2 data-en="Pharmacies">💊 الصيدليات</h2>
+            <p data-en="Pharmacies in Qus Center and emergency pharmaceutical services">صيدليات مركز قوص وخدمات الطوارئ الدوائية</p>
+        </div>
+        <div class="cards-container" id="pharmacies-container">
+            <!-- سيتم إضافة كروت الصيدليات ديناميكياً -->
+        </div>
+    </section>
+
+    <!-- قسم الخدمات العامة -->
+    <section id="services">
+        <div class="section-header">
+            <h2 data-en="Public Services">🏛️ الخدمات العامة</h2>
+            <p data-en="Emergency services and public utilities in Qus Center">خدمات الطوارئ والمرافق العامة بمركز قوص</p>
+        </div>
+        <div class="cards-container" id="services-container">
+            <!-- سيتم إضافة كروت الخدمات ديناميكياً -->
+        </div>
+    </section>
+
+    <!-- قسم التواصل مع المطور -->
+    <section id="developer-contact" class="developer-contact">
+        <div class="developer-profile">
+            <div class="profile-avatar">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h2>أمين ناجح أبو الفتوج صابر</h2>
+            <div class="developer-title">مطور تطبيقات ويب وموبيل مخصص في حالات الطوارئ</div>
+            <p>مطور متخصص في إنشاء حلول تكنولوجية مبتكرة للطوارئ والخدمات الإسعافية</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <h4>البريد الإلكتروني</h4>
+                    <p>للتواصل المهني والعروض</p>
+                    <a href="mailto:amin.nageh@example.com" class="contact-btn">إرسال بريد</a>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fab fa-whatsapp"></i>
+                    <h4>واتساب</h4>
+                    <p>للتواصل المباشر والسريع</p>
+                    <a href="https://wa.me/201153546426" class="contact-btn">محادثة فورية</a>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-phone"></i>
+                    <h4>اتصال فوري</h4>
+                    <p>للاستشارات والطوارئ</p>
+                    <a href="tel:01153546426" class="contact-btn">اتصال الآن</a>
+                </div>
+            </div>
+            
+            <div class="social-links" style="justify-content: center; margin-top: 2rem;">
+                <a href="https://www.linkedin.com/in/amin-nageh" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://www.facebook.com/amin.nageh" target="_blank" title="Facebook" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://github.com/amin-nageh" target="_blank" title="GitHub" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عن المشروع -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2 data-en="About Emergency Connect"> About Emergency Connect</h2>
+        </div>
+        <div class="about-content">
+            <p data-en="This project was developed by Amin Nageh, aiming to facilitate access to emergency services and public facilities quickly and safely.">تم تطوير هذا المشروع بواسطة <strong>أمين ناجح</strong>، بهدف تسهيل الوصول لخدمات الطوارئ والمرافق العامة بشكل سريع وآمن.</p>
+            <p data-en="We strive to achieve Egypt's 2030 vision in digital transformation and serving the local community.">نسعى لتحقيق رؤية مصر 2030 في التحول الرقمي وخدمة المجتمع المحلي.</p>
+            <p data-en="For contact or inquiries:">للاتصال أو الاستفسارات: <span class="contact-email">01153546426</span></p>
+        </div>
+    </section>
+
+    <!-- قسم التواصل -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <h2 data-en="Contact Us">اتصل بنا</h2>
+            <p data-en="We are here to answer any questions about emergency services">نحن هنا للإجابة على أي استفسارات حول خدمات الطوارئ</p>
+        </div>
+        <div class="contact-form">
+            <div class="form-group">
+                <label for="name" data-en="Name">الاسم</label>
+                <input type="text" id="name" class="form-control" placeholder="أدخل اسمك">
+            </div>
+            <div class="form-group">
+                <label for="email" data-en="Email">البريد الإلكتروني</label>
+                <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            <div class="form-group">
+                <label for="message" data-en="Message">الرسالة</label>
+                <textarea id="message" class="form-control" placeholder="أدخل رسالتك"></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" id="sendMessageBtn" data-en="Send Message">إرسال الرسالة</button>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 data-en="Emergency Connect">Emergency Connect</h3>
+                <p data-en="A unified platform for emergency services in Qus Center, providing quick and easy access to doctors, pharmacies, and public services.">منصة موحدة لخدمات الطوارئ بمركز قوص، تتيح الوصول السريع والسهل للأطباء والصيدليات والخدمات العامة.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/amin-nageh" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.facebook.com/amin.nageh" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/201153546426" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 data-en="Quick Links">روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="#home" data-en="Home">الرئيسية</a></li>
+                    <li><a href="#hospitals" data-en="Hospitals">المستشفيات</a></li>
+                    <li><a href="#doctors" data-en="Doctors">الأطباء</a></li>
+                    <li><a href="#pharmacies" data-en="Pharmacies">الصيدليات</a></li>
+                    <li><a href="#developer-contact" data-en="Developer">المطور</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 data-en="Contact Information">معلومات التواصل</h3>
+                <p><i class="fas fa-phone"></i> 01153546426</p>
+                <p><i class="fab fa-whatsapp"></i> 01153546426</p>
+                <p><i class="fas fa-map-marker-alt"></i> <span data-en="Qus Center, Qena, Egypt">مركز قوص، قنا، مصر</span></p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2025 Emergency Connect - <span data-en="All rights reserved">جميع الحقوق محفوظة</span></p>
+            <p class="developer-credit" data-en="Designed by Amin Nageh">تم التصميم والتطوير بواسطة أمين ناجح</p>
+        </div>
+    </footer>
+
+    <!-- زر تثبيت التطبيق -->
+    <button class="install-btn" id="installBtn" style="display: none;">📱 تثبيت التطبيق</button>
+
+    <script>
+        // بيانات شاملة لخدمات الطوارئ بقوص
+        const hospitalsData = [
+            { name: "مستشفى الرجاء", phone: "01011182784", secondaryPhone: "01143686606", location: "قوص المركز", type: "مستشفى خاص", isEmergency: true },
+            { name: "مستشفى العتامنة", phone: "01116497852", location: "قوص المركز", type: "مستشفى خاص", isEmergency: true },
+            { name: "مركز الرضوانية للأشعة", phone: "01022663865", secondaryPhone: "01122498218", location: "قوص المركز", type: "مركز أشعة" },
+            { name: "حضانات الجمعية الشرعية", phone: "01129910447", location: "قوص المركز", type: "حضانات أطفال", isEmergency: true },
+            { name: "مركز الرواد", phone: "01145530397", secondaryPhone: "01008627520", location: "قوص المركز", type: "مركز طبي" },
+            { name: "مستشفى الأقصر الدولي", phone: "0952280193", secondaryPhone: "0952277194", location: "الأقصر", type: "مستشفى خاص", isEmergency: true },
+            { name: "مستشفى الهلال الأحمر بقنا", phone: "0963325720", secondaryPhone: "0963357388", location: "قنا", type: "مستشفى حكومي", isEmergency: true },
+            { name: "مستشفى الجامعة بقنا", phone: "0963345726", location: "قنا", type: "مستشفى تعليمي", isEmergency: true },
+            { name: "مستشفى العيون الدولي بالأقصر", phone: "01200005885", location: "الأقصر", type: "مستشفى تخصصي" },
+            { name: "مستشفى النيل بنقادة", phone: "01273370734", location: "نقادة", type: "مستشفى خاص", isEmergency: true }
+        ];
+
+        const doctorsData = {
+            pediatrics: [
+                { name: "د/خالد رشاد", specialty: "أطفال", phone: "01120980999", location: "قوص المركز" },
+                { name: "د/عادل قطمة", specialty: "أطفال", phone: "01098869679", location: "قوص المركز" },
+                { name: "د/الكريوني", specialty: "أطفال", phone: "01153837512", location: "قوص المركز" },
+                { name: "د/محمود عبد الكريم", specialty: "أطفال", phone: "01143127523", location: "قوص المركز" },
+                { name: "د/شريف رشدي", specialty: "أطفال", phone: "01028723235", location: "قوص المركز" },
+                { name: "د/السيد رشاد", specialty: "أطفال", phone: "0962214895", location: "قوص المركز" },
+                { name: "د/ماري", specialty: "أطفال", phone: "0115423966", location: "قوص المركز" },
+                { name: "د/أماني فوزي", specialty: "أطفال", phone: "01116507547", location: "قوص المركز" }
+            ],
+            internal: [
+                { name: "د/سمير ريحان", specialty: "باطنة", phone: "الحجز داخل العيادة", location: "قوص المركز" },
+                { name: "د/أحمد صالح", specialty: "باطنة", phone: "01120366260", secondaryPhone: "01014889959", location: "قوص المركز" },
+                { name: "د/أحمد مجدي", specialty: "باطنة وأمراض القلب", phone: "01146298199", location: "قوص المركز" },
+                { name: "د/علي جاد الكريم", specialty: "باطنة", phone: "01102361288", location: "قوص المركز" },
+                { name: "د/عمرو عنتر", specialty: "باطنة", phone: "0102784427", secondaryPhone: "01111425453", location: "قوص المركز" },
+                { name: "د/أسامة هاشم", specialty: "باطنة", phone: "01128782121", location: "قوص المركز" },
+                { name: "د/علي عثمان", specialty: "باطنة", phone: "01280802871", location: "قوص المركز" },
+                { name: "د/مصطفى جلال", specialty: "باطنة", phone: "01001683320", location: "قوص المركز" },
+                { name: "د/ياسمين", specialty: "باطنة وجهاز هضمي", phone: "01114050450", location: "قوص المركز" }
+            ],
+            gynecology: [
+                { name: "د/عمر أبو الوفا", specialty: "نساء وتوليد", phone: "01127793290", location: "قوص المركز" },
+                { name: "د/حسن عبد اللطيف", specialty: "نساء وتوليد", phone: "01112522634", location: "قوص المركز" },
+                { name: "د/أحمد حمدي", specialty: "نساء وتوليد", phone: "01123062307", location: "قوص المركز" },
+                { name: "د/جمال السيد", specialty: "نساء وتوليد", phone: "01142305987", secondaryPhone: "01127010878", location: "قوص المركز" },
+                { name: "د/صفوت عبد الراضي", specialty: "نساء وتوليد", phone: "01024520209", location: "قوص المركز" },
+                { name: "د/هالة بسطاوي", specialty: "نساء وتوليد", phone: "01117810075", location: "قوص المركز" },
+                { name: "د/ناهد عبد الموجود", specialty: "نساء وتوليد", phone: "01121648241", location: "قوص المركز" }
+            ],
+            ophthalmology: [
+                { name: "د/عبدالله الأمين", specialty: "عيون", phone: "01140994423", location: "قوص المركز" },
+                { name: "د/لوريس", specialty: "عيون", phone: "01115423966", location: "قوص المركز" },
+                { name: "د/مي القوصي", specialty: "عيون", phone: "01010311397", location: "قوص المركز" }
+            ],
+            other: [
+                { name: "د/أحمد عابدين", specialty: "مسالك", phone: "01110861280", location: "قوص المركز" },
+                { name: "د/محمود محمد عباس", specialty: "مسالك وكلي", phone: "01000502630", location: "قوص المركز" },
+                { name: "د/محسن طلبة", specialty: "عظام", phone: "01273288183", location: "قوص المركز" },
+                { name: "د/أحمد المطيري", specialty: "عظام", phone: "01115802157", location: "قوص المركز" },
+                { name: "د/عبدالرحمن عصام هلالي", specialty: "جراحة وأورام", phone: "01157203032", location: "قوص المركز" },
+                { name: "د/محمد لطفي", specialty: "جراحة", phone: "01094375688", secondaryPhone: "01146781383", location: "قوص المركز" },
+                { name: "د/حسين الكيال", specialty: "جراحة", phone: "01153727001", secondaryPhone: "096221092", location: "قوص المركز" },
+                { name: "د/أشرف شبيب", specialty: "جراحة", phone: "01009343451", secondaryPhone: "01116656306", location: "قوص المركز" },
+                { name: "د/أحمد محمد سعيد", specialty: "جراحة", phone: "01126134747", secondaryPhone: "01003731826", location: "قوص المركز" },
+                { name: "د/نسرين", specialty: "أنف وأذن", phone: "01020332304", location: "قوص المركز" },
+                { name: "د/أبو الحسن الشادلي", specialty: "أنف وأذن", phone: "01067323188", location: "قوص المركز" },
+                { name: "د/بشوي", specialty: "قلب وأوعية دموية", phone: "01092689082", secondaryPhone: "01153843066", location: "قوص المركز" },
+                { name: "د/محمد عبد الراضي", specialty: "قلب", phone: "01122589883", location: "قوص المركز" },
+                { name: "د/محمود عاطف هلالي", specialty: "جلدية", phone: "01156840337", location: "قوص المركز" },
+                { name: "د/يوسف ناجي", specialty: "جلدية", phone: "0962211579", location: "قوص المركز" },
+                { name: "د/صفية", specialty: "جلدية", phone: "01120885681", location: "قوص المركز" }
+            ]
+        };
+
+        const pharmaciesData = [
+            { name: "صيدلية الرجاء", phone: "01011182784", location: "قوص المركز", is24h: true },
+            { name: "صيدلية العتامنة", phone: "01116497852", location: "قوص المركز", is24h: false },
+            { name: "صيدلية الجمعية الشرعية", phone: "01129910447", location: "قوص المركز", is24h: true },
+            { name: "صيدلية الرواد", phone: "01145530397", location: "قوص المركز", is24h: false },
+            { name: "صيدلية العطار", phone: "01005557733", location: "قوص - شارع النيل", is24h: false },
+            { name: "صيدلية الشروق", phone: "01010092234", location: "قوص - بجوار المستشفى المركزي", is24h: true }
+        ];
+
+        const servicesData = [
+            { name: "الإسعاف", phone: "123", description: "خدمة الإسعاف والطوارئ الطبية", type: "طبي" },
+            { name: "النجدة", phone: "122", description: "شرطة النجدة والطوارئ الأمنية", type: "أمني" },
+            { name: "المطافي", phone: "180", description: "الإطفاء والإنقاذ في حالات الحرائق", type: "إنقاذ" },
+            { name: "الكهرباء", phone: "121", description: "طوارئ الكهرباء والشكاوى", type: "خدمة" },
+            { name: "المياه", phone: "125", description: "شكاوى المياه والسباكة", type: "خدمة" }
+        ];
+
+        // بيانات الترجمة
+        const translations = {
+            ar: {
+                "Home": "الرئيسية",
+                "Hospitals": "المستشفيات", 
+                "Doctors": "الأطباء",
+                "Pharmacies": "الصيدليات",
+                "Services": "الخدمات",
+                "Developer": "المطور",
+                "About": "عن المشروع",
+                "Contact": "اتصل بنا",
+                "Emergency Connect": "Emergency Connect",
+                "Call Emergency Now": "اتصل الآن بالطوارئ",
+                "Always Ready — Always Connected": "جاهز دايمًا — متصل دايمًا",
+                "Hospitals & Centers": "🏥 المستشفيات والمراكز الطبية", 
+                "Specialized Doctors": "👨‍⚕️ الأطباء المتخصصون",
+                "Pharmacies": "💊 الصيدليات",
+                "Public Services": "🏛️ الخدمات العامة",
+                "About Emergency Connect": "عن Emergency Connect",
+                "Contact Us": "اتصل بنا",
+                "Name": "الاسم",
+                "Email": "البريد الإلكتروني", 
+                "Message": "الرسالة",
+                "Send Message": "إرسال الرسالة",
+                "Quick Links": "روابط سريعة", 
+                "Contact Information": "معلومات التواصل",
+                "All rights reserved": "جميع الحقوق محفوظة",
+                "Designed by Amin Nageh": "تم التصميم والتطوير بواسطة أمين ناجح",
+                "Call": "اتصل",
+                "Map": "الخريطة"
+            },
+            en: {
+                "Home": "Home",
+                "Hospitals": "Hospitals",
+                "Doctors": "Doctors", 
+                "Pharmacies": "Pharmacies",
+                "Services": "Services",
+                "Developer": "Developer",
+                "About": "About",
+                "Contact": "Contact",
+                "Emergency Connect": "Emergency Connect",
+                "Call Emergency Now": "Call Emergency Now", 
+                "Always Ready — Always Connected": "Always Ready — Always Connected",
+                "Hospitals & Centers": "🏥 Hospitals & Medical Centers",
+                "Specialized Doctors": "👨‍⚕️ Specialized Doctors",
+                "Pharmacies": "💊 Pharmacies", 
+                "Public Services": "🏛️ Public Services",
+                "About Emergency Connect": "About Emergency Connect",
+                "Contact Us": "Contact Us", 
+                "Name": "Name",
+                "Email": "Email",
+                "Message": "Message", 
+                "Send Message": "Send Message",
+                "Quick Links": "Quick Links",
+                "Contact Information": "Contact Information", 
+                "All rights reserved": "All rights reserved",
+                "Designed by Amin Nageh": "Designed by Amin Nageh",
+                "Call": "Call", 
+                "Map": "Map"
+            }
+        };
+
+        // حالة التطبيق
+        let currentLang = 'ar';
+        let isDarkMode = false;
+        let deferredPrompt;
+
+        // نظام المميزات المتقدمة
+        class AdvancedFeatures {
+            constructor() {
+                this.searchIndex = [];
+                this.init();
+            }
+
+            init() {
+                this.buildSearchIndex();
+                this.setupSearch();
+                this.setupPWA();
+                this.setupOfflineStorage();
+                this.setupIntersectionObserver();
+            }
+
+            buildSearchIndex() {
+                this.searchIndex = [
+                    ...hospitalsData.map(h => ({...h, category: 'مستشفى', type: 'hospital'})),
+                    ...doctorsData.pediatrics.map(d => ({...d, category: 'طبيب أطفال', type: 'doctor'})),
+                    ...doctorsData.internal.map(d => ({...d, category: 'طبيب باطنة', type: 'doctor'})),
+                    ...doctorsData.gynecology.map(d => ({...d, category: 'نساء وتوليد', type: 'doctor'})),
+                    ...doctorsData.ophthalmology.map(d => ({...d, category: 'طبيب عيون', type: 'doctor'})),
+                    ...doctorsData.other.map(d => ({...d, category: 'تخصصات أخرى', type: 'doctor'})),
+                    ...pharmaciesData.map(p => ({...p, category: 'صيدلية', type: 'pharmacy'})),
+                    ...servicesData.map(s => ({...s, category: 'خدمة', type: 'service'}))
+                ];
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('globalSearch');
+                const voiceSearch = document.getElementById('voiceSearch');
+
+                searchInput.addEventListener('input', (e) => {
+                    this.performSearch(e.target.value);
+                });
+
+                // بحث بالصوت
+                if ('webkitSpeechRecognition' in window) {
+                    voiceSearch.style.display = 'block';
+                    voiceSearch.addEventListener('click', () => this.startVoiceSearch());
+                } else {
+                    voiceSearch.style.display = 'none';
+                }
+            }
+
+            performSearch(query) {
+                if (query.length < 2) {
+                    this.hideSearchResults();
+                    return;
+                }
+
+                const results = this.searchIndex.filter(item =>
+                    item.name.includes(query) ||
+                    (item.specialty && item.specialty.includes(query)) ||
+                    (item.location && item.location.includes(query)) ||
+                    (item.description && item.description.includes(query)) ||
+                    (item.phone && item.phone.includes(query))
+                );
+
+                this.displaySearchResults(results, query);
+            }
+
+            displaySearchResults(results, query) {
+                this.hideSearchResults();
+
+                if (results.length === 0) {
+                    this.showNoResults(query);
+                    return;
+                }
+
+                const resultsHTML = `
+                    <div class="search-results-overlay">
+                        <div class="search-results-container">
+                            <div class="search-header">
+                                <h3>نتائج البحث عن: "${query}"</h3>
+                                <button class="close-search" onclick="advancedFeatures.hideSearchResults()">✕</button>
+                            </div>
+                            <div class="search-results-list">
+                                ${results.map(item => `
+                                    <div class="search-result-item" onclick="advancedFeatures.handleSearchResult('${item.phone}')">
+                                        <div class="result-icon">
+                                            ${this.getIconForType(item.type)}
+                                        </div>
+                                        <div class="result-content">
+                                            <h4>${item.name}</h4>
+                                            <p>${item.specialty || item.description || ''}</p>
+                                            <small>${item.location} • ${item.phone}</small>
+                                        </div>
+                                        <div class="result-action">
+                                            <button class="btn btn-primary" onclick="event.stopPropagation(); makeCall('${item.phone}')">
+                                                <i class="fas fa-phone"></i>
+                                                <span data-en="Call">اتصل</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', resultsHTML);
+                updateTranslations();
+            }
+
+            startVoiceSearch() {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'ar-EG';
+                recognition.start();
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('globalSearch').value = transcript;
+                    this.performSearch(transcript);
+                };
+            }
+
+            setupPWA() {
+                // Service Worker
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(() => console.log('SW registered'))
+                        .catch(err => console.log('SW error:', err));
+                }
+
+                // تثبيت التطبيق
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    document.getElementById('installBtn').style.display = 'block';
+                });
+            }
+
+            setupOfflineStorage() {
+                if (!localStorage.getItem('emergencyData')) {
+                    const allData = {
+                        hospitals: hospitalsData,
+                        doctors: doctorsData,
+                        pharmacies: pharmaciesData,
+                        services: servicesData,
+                        lastUpdated: new Date().toISOString()
+                    };
+                    localStorage.setItem('emergencyData', JSON.stringify(allData));
+                }
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.card').forEach(card => {
+                    observer.observe(card);
+                });
+            }
+
+            getIconForType(type) {
+                const icons = {
+                    'hospital': '🏥',
+                    'doctor': '👨‍⚕️',
+                    'pharmacy': '💊',
+                    'service': '🏛️'
+                };
+                return icons[type] || '📍';
+            }
+
+            hideSearchResults() {
+                const existingResults = document.querySelector('.search-results-overlay');
+                if (existingResults) {
+                    existingResults.remove();
+                }
+            }
+
+            showNoResults(query) {
+                const noResultsHTML = `
+                    <div class="search-results-overlay">
+                        <div class="search-results-container">
+                            <div class="no-results">
+                                <p>❌ لا توجد نتائج لـ "${query}"</p>
+                                <p>جرب كلمات بحث أخرى</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', noResultsHTML);
+            }
+
+            handleSearchResult(phone) {
+                makeCall(phone);
+                this.hideSearchResults();
+            }
+        }
+
+        // دوال المساعدة
+        function makeCall(phone) {
+            if (confirm(`هل تريد الاتصال بـ ${phone}؟`)) {
+                window.open(`tel:${phone}`, '_self');
+            }
+        }
+
+        function showOnMap(location) {
+            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location + ' قوص')}`;
+            window.open(mapUrl, '_blank');
+        }
+
+        // دوال التهيئة الأساسية
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+            });
+
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                isDarkMode = true;
+                document.body.classList.add('dark-mode');
+            }
+        }
+
+        function setupLanguageToggle() {
+            const langSwitcher = document.getElementById('langSwitcher');
+            langSwitcher.addEventListener('click', function() {
+                currentLang = currentLang === 'ar' ? 'en' : 'ar';
+                updateTranslations();
+                
+                const langText = langSwitcher.querySelector('span');
+                if (currentLang === 'ar') {
+                    langText.textContent = 'العربية';
+                    document.dir = 'rtl';
+                } else {
+                    langText.textContent = 'English';
+                    document.dir = 'ltr';
+                }
+                
+                localStorage.setItem('language', currentLang);
+            });
+
+            const savedLang = localStorage.getItem('language') || 'ar';
+            if (savedLang === 'en') {
+                currentLang = 'en';
+                document.dir = 'ltr';
+                const langText = langSwitcher.querySelector('span');
+                langText.textContent = 'English';
+            }
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-en]').forEach(element => {
+                const key = element.getAttribute('data-en');
+                if (translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+            function openMobileMenu() {
+                mobileMenu.classList.add('active');
+                mobileMenuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenuFunc() {
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+            closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+            mobileMenuOverlay.addEventListener('click', closeMobileMenuFunc);
+
+            // إغلاق القائمة عند النقر على رابط
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMobileMenuFunc);
+            });
+        }
+
+        async function setupContactForm() {
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            sendMessageBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                
+                if (!name || !email || !message) {
+                    alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول' : 'Please fill in all fields');
+                    return;
+                }
+                
+                try {
+                    // إرسال للسيرفر
+                    const response = await fetch('http://localhost:5000/api/send-message', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            phone: '01153546426',
+                            email: email,
+                            subject: 'رسالة من موقع الطوارئ',
+                            message: message,
+                            type: 'general'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert(currentLang === 'ar' ? 'تم إرسال رسالتك بنجاح! سأتواصل معك قريبًا.' : 'Message sent successfully!');
+                        document.getElementById('name').value = '';
+                        document.getElementById('email').value = '';
+                        document.getElementById('message').value = '';
+                    } else {
+                        alert(currentLang === 'ar' ? 'حدث خطأ في الإرسال' : 'Error sending message');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(currentLang === 'ar' ? 'تم حفظ الرسالة محلياً' : 'Message saved locally');
+                }
+            });
+        }
+
+        // دوال تحميل البيانات
+        function loadHospitals() {
+            const container = document.getElementById('hospitals-container');
+            let html = '';
+            
+            hospitalsData.forEach(hospital => {
+                const emergencyBadge = hospital.isEmergency ? '<span class="badge badge-success">🚨 طوارئ</span>' : '';
+                const secondaryPhone = hospital.secondaryPhone ? `<br><strong>هاتف إضافي:</strong> ${hospital.secondaryPhone}` : '';
+                
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-icon">🏥</span>
+                            <h3>${hospital.name}</h3>
+                        </div>
+                        <p><strong>${hospital.type}:</strong> ${hospital.location}</p>
+                        <p><strong>هاتف:</strong> ${hospital.phone}${secondaryPhone}</p>
+                        ${emergencyBadge}
+                        <div class="card-actions">
+                            <a href="tel:${hospital.phone}" class="btn btn-primary">
+                                <i class="fas fa-phone"></i>
+                                <span data-en="Call">اتصل</span>
+                            </a>
+                            <button class="btn btn-secondary" onclick="showOnMap('${hospital.location}')">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span data-en="Map">الخريطة</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function loadDoctors() {
+            loadDoctorCategory('pediatrics-container', doctorsData.pediatrics);
+            loadDoctorCategory('internal-container', doctorsData.internal);
+            loadDoctorCategory('gynecology-container', doctorsData.gynecology);
+            loadDoctorCategory('ophthalmology-container', doctorsData.ophthalmology);
+            loadDoctorCategory('other-doctors-container', doctorsData.other);
+        }
+
+        function loadDoctorCategory(containerId, doctors) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            
+            doctors.forEach(doctor => {
+                const secondaryPhone = doctor.secondaryPhone ? `<br><strong>هاتف إضافي:</strong> ${doctor.secondaryPhone}` : '';
+                
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-icon">👨‍⚕️</span>
+                            <h3>${doctor.name}</h3>
+                        </div>
+                        <p><strong data-en="Specialty">التخصص:</strong> ${doctor.specialty}</p>
+                        <p><strong data-en="Location">الموقع:</strong> ${doctor.location}</p>
+                        <p><strong>هاتف:</strong> ${doctor.phone}${secondaryPhone}</p>
+                        <div class="card-actions">
+                            <a href="tel:${doctor.phone}" class="btn btn-primary">
+                                <i class="fas fa-phone"></i>
+                                <span data-en="Call">اتصل</span>
+                            </a>
+                            <button class="btn btn-secondary" onclick="showOnMap('${doctor.location}')">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span data-en="Map">الخريطة</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function loadPharmacies() {
+            const container = document.getElementById('pharmacies-container');
+            let html = '';
+            
+            pharmaciesData.forEach(pharmacy => {
+                const badge = pharmacy.is24h ? '<span class="badge badge-success">🌙 24 ساعة</span>' : '';
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-icon">💊 </span>
+                            <h3>${pharmacy.name}</h3>
+                        </div>
+                        <p><strong data-en="Location">الموقع:</strong> ${pharmacy.location}</p>
+                        <p>${badge}</p>
+                        <div class="card-actions">
+                            <a href="tel:${pharmacy.phone}" class="btn btn-primary">
+                                <i class="fas fa-phone"></i>
+                                <span data-en="Call">اتصل</span>
+                            </a>
+                            <button class="btn btn-secondary" onclick="showOnMap('${pharmacy.location}')">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span data-en="Map">الخريطة</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function loadServices() {
+            const container = document.getElementById('services-container');
+            let html = '';
+            
+            servicesData.forEach(service => {
+                const typeBadge = service.type === 'طبي' ? 'badge-success' : service.type === 'أمني' ? 'badge-warning' : 'badge-info';
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-icon">🏛️</span>
+                            <h3>${service.name}</h3>
+                            <span class="badge ${typeBadge}">${service.type}</span>
+                        </div>
+                        <p>${service.description}</p>
+                        <div class="card-actions">
+                            <a href="tel:${service.phone}" class="btn btn-primary">
+                                <i class="fas fa-phone"></i>
+                                <span data-en="Call">اتصل</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // التهيئة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+            }, 3000);
+
+            loadHospitals();
+            loadDoctors();
+            loadPharmacies();
+            loadServices();
+            
+            setupThemeToggle();
+            setupLanguageToggle();
+            setupSmoothScroll();
+            setupMobileMenu();
+            setupContactForm();
+            updateTranslations();
+
+            // تهيئة المميزات المتقدمة
+            window.advancedFeatures = new AdvancedFeatures();
+        });
+
+        // تثبيت التطبيق
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('installBtn').style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد الطوارئ - أمين ناجح</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --emergency: #e74c3c;
+            --emergency-dark: #c0392b;
+            --success: #27ae60;
+            --whatsapp: #25D366;
+            --warning: #f39c12;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            color: var(--text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الهيدر */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+        }
+        
+        .developer-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .developer-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            border: 3px solid white;
+        }
+        
+        .developer-card h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .developer-card p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .developer-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        /* الشبكة الرئيسية */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        
+        .service-card.emergency::before {
+            background: linear-gradient(135deg, var(--emergency) 0%, var(--emergency-dark) 100%);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .card-title {
+            font-size: 1.4em;
+            color: var(--text);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .card-desc {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .card-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--emergency);
+        }
+        
+        .action-buttons {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-call {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: white;
+        }
+        
+        .btn-email {
+            background: #EA4335;
+            color: white;
+        }
+        
+        .btn-emergency {
+            background: linear-gradient(135deg, var(--emergency) 0%, var(--emergency-dark) 100%);
+            color: white;
+            font-size: 1.1em;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* قسم الطوارئ */
+        .emergency-section {
+            background: linear-gradient(135deg, var(--emergency) 0%, var(--emergency-dark) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+        }
+        
+        .emergency-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        .emergency-section p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .emergency-btn {
+            background: white;
+            color: var(--emergency);
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .emergency-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        /* شبكة الاتصال */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .contact-method {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .contact-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .contact-method h3 {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .contact-method p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* الفوتر */
+        .footer {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        
+        /* الأنيميشن */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* التجاوبية */
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 20px 10px;
+            }
+            
+            .developer-card h1 {
+                font-size: 1.6em;
+            }
+            
+            .emergency-section {
+                padding: 25px;
+            }
+            
+            .emergency-btn {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- الهيدر -->
+        <header class="header">
+            <div class="developer-card">
+                <div class="developer-img">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1>أمين ناجح أبو الفتوح صابر</h1>
+                <p>مطور تطبيقات ويب وموبايل متخصص في حلول الطوارئ</p>
+                <div class="developer-badges">
+                    <div class="badge">📱 Web Developer</div>
+                    <div class="badge">🚀 UI/UX Designer</div>
+                    <div class="badge">🚨 Emergency Solutions</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- الشبكة الرئيسية للخدمات -->
+        <div class="main-grid">
+            <!-- اتصال فوري -->
+            <div class="service-card">
+                <div class="card-icon">📞</div>
+                <h3 class="card-title">اتصال فوري</h3>
+                <p class="card-desc">اتصل بي مباشرة لأي استفسار أو طوارئ، متاح 24/7 للرد على استفساراتك</p>
+                <div class="card-number">01153546426</div>
+                <div class="action-buttons">
+                    <button class="btn btn-call" onclick="makeCall('01153546426')">
+                        <i class="fas fa-phone"></i>
+                        اتصل الآن
+                    </button>
+                </div>
+            </div>
+
+            <!-- واتساب سريع -->
+            <div class="service-card">
+                <div class="card-icon">💚</div>
+                <h3 class="card-title">واتساب فوري</h3>
+                <p class="card-desc">راسلني على الواتساب للرد السريع، متاح للمحادثات الفورية والمستعجلة</p>
+                <div class="card-number">01153546426</div>
+                <div class="action-buttons">
+                    <button class="btn btn-whatsapp" onclick="openWhatsapp('01153546426')">
+                        <i class="fab fa-whatsapp"></i>
+                        محادثة واتساب
+                    </button>
+                </div>
+            </div>
+
+            <!-- بريد إلكتروني -->
+            <div class="service-card">
+                <div class="card-icon">📧</div>
+                <h3 class="card-title">بريد إلكتروني</h3>
+                <p class="card-desc">أرسل رسالة مفصلة للاستفسارات المهمة والمشاريع والتعاون الطويل الأمد</p>
+                <div class="card-desc" style="color: var(--emergency); font-weight: bold;">amin.weqena2@gmail.com</div>
+                <div class="action-buttons">
+                    <button class="btn btn-email" onclick="sendEmail()">
+                        <i class="fas fa-envelope"></i>
+                        إرسال بريد
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الطوارئ -->
+        <section class="emergency-section">
+            <h2>🚨 حالة طوارئ عاجلة؟</h2>
+            <p>إذا كنت في حالة طوارئ حقيقية أو تحتاج مساعدة فورية، لا تتردد في الاتصال بي مباشرة</p>
+            <button class="emergency-btn pulse" onclick="triggerEmergency()">
+                <i class="fas fa-phone"></i>
+                اتصال طوارئ فوري
+            </button>
+            <p style="margin-top: 15px; font-size: 0.9em;">سأرد عليك في أسرع وقت ممكن - متاح دائماً للمساعدة</p>
+        </section>
+
+        <!-- طرق التواصل الإضافية -->
+        <div class="contact-grid">
+            <div class="contact-method">
+                <div class="contact-icon">📞</div>
+                <h3>اتصال صوتي</h3>
+                <p>مكالمة مباشرة للمناقشات الفورية</p>
+                <button class="btn btn-call" onclick="makeCall('01153546426')">
+                    اتصل الآن
+                </button>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">💬</div>
+                <h3>رسالة واتساب</h3>
+                <p>محادثة نصية سريعة</p>
+                <button class="btn btn-whatsapp" onclick="openWhatsapp('01153546426')">
+                    راسلني
+                </button>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">📧</div>
+                <h3>بريد إلكتروني</h3>
+                <p>للاستفسارات الرسمية</p>
+                <button class="btn btn-email" onclick="sendEmail()">
+                    إرسال بريد
+                </button>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">📍</div>
+                <h3>مشاركة الموقع</h3>
+                <p>في حالات الطوارئ الجغرافية</p>
+                <button class="btn" style="background: var(--warning); color: white;" onclick="shareLocation()">
+                    مشاركة موقعي
+                </button>
+            </div>
+        </div>
+
+        <!-- معلومات الاتصال -->
+        <div class="service-card" style="text-align: center;">
+            <h3 style="margin-bottom: 20px;">📋 معلومات الاتصال الكاملة</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: right;">
+                <div>
+                    <strong>📞 الهاتف:</strong>
+                    <div>01153546426</div>
+                </div>
+                <div>
+                    <strong>💚 الواتساب:</strong>
+                    <div>01153546426</div>
+                </div>
+                <div>
+                    <strong>📧 البريد:</strong>
+                    <div>amin.weqena2@gmail.com</div>
+                </div>
+                <div>
+                    <strong>📍 الموقع:</strong>
+                    <div>قوص، قنا، مصر</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الفوتر -->
+        <footer class="footer">
+            <h3>مساعد الطوارئ الشخصي</h3>
+            <p>طورت هذا النظام لمساعدة الجميع في الوصول إلي بسهولة وسرعة</p>
+            
+            <div class="social-links">
+                <a href="https://wa.me/201153546426" class="social-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="tel:01153546426" class="social-link">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="mailto:amin.weqena2@gmail.com" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            
+            <p>© 2024 أمين ناجح - جميع الحقوق محفوظة</p>
+            <p>مطور واجهات ويب وتطبيقات طوارئ</p>
+        </footer>
+    </div>
+
+    <script>
+        // الدوال الأساسية
+        function makeCall(number) {
+            if(confirm(`هل تريد الاتصال بالرقم ${number}؟`)) {
+                window.open(`tel:${number}`, '_self');
+                logAction('call', number);
+            }
+        }
+        
+        function openWhatsapp(number) {
+            const message = 'مرحباً أمين! أريد التواصل معك 🚀';
+            window.open(`https://wa.me/20${number}?text=${encodeURIComponent(message)}`, '_blank');
+            logAction('whatsapp', number);
+        }
+        
+        function sendEmail() {
+            const subject = 'استفسار مهم - تواصل من مساعد الطوارئ';
+            const body = 'مرحباً أمين،\n\nأريد الاستفسار عن:\n\nمع خالص التحيات،';
+            window.open(`mailto:amin.weqena2@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_self');
+            logAction('email', 'amin.weqena2@gmail.com');
+        }
+        
+        function triggerEmergency() {
+            if(confirm('🚨 حالة طوارئ! هل تريد الاتصال بي فوراً؟')) {
+                // اتصال فوري
+                window.open('tel:01153546426', '_self');
+                
+                // إشعار تأكيد
+                setTimeout(() => {
+                    showNotification('تم إرسال تنبيه طوارئ! سأتواصل معك قريباً.', 'success');
+                }, 1000);
+                
+                logAction('emergency', '01153546426');
+            }
+        }
+        
+        function shareLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    const locationUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+                    const message = `📍 موقعي الحالي: ${locationUrl}`;
+                    
+                    window.open(`https://wa.me/201153546426?text=${encodeURIComponent(message)}`, '_blank');
+                    showNotification('تم مشاركة الموقع بنجاح!', 'success');
+                }, error => {
+                    showNotification('تعذر الوصول إلى الموقع. يرجى التحقق من الإعدادات.', 'error');
+                });
+            } else {
+                showNotification('المتصفح لا يدخدم تحديد الموقع.', 'error');
+            }
+        }
+        
+        function logAction(type, target) {
+            const actions = JSON.parse(localStorage.getItem('contactActions')) || [];
+            actions.push({
+                type,
+                target,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString('ar-EG')
+            });
+            
+            // حفظ آخر 100 إجراء فقط
+            const recentActions = actions.slice(-100);
+            localStorage.setItem('contactActions', JSON.stringify(recentActions));
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                max-width: 300px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+        
+        // تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة أنيميشن للبطاقات
+            const cards = document.querySelectorAll('.service-card, .contact-method');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+                card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                card.style.opacity = '0';
+            });
+            
+            // إضافة أنيميشن للزر الطوارئ
+            const emergencyBtn = document.querySelector('.emergency-btn');
+            if (emergencyBtn) {
+                emergencyBtn.style.animation = 'fadeInUp 0.8s ease-out 1s forwards';
+                emergencyBtn.style.opacity = '0';
+            }
+        });
+        
+        // إضافة الأنيميشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // تسجيل زيارة الصفحة
+        window.addEventListener('load', function() {
+            const pageVisits = parseInt(localStorage.getItem('aminAssistantVisits')) || 0;
+            localStorage.setItem('aminAssistantVisits', (pageVisits + 1).toString());
+            console.log(`عدد زيارات مساعد الطوارئ: ${pageVisits + 1}`);
+        });
+    </script>
+</body>
+</html>
